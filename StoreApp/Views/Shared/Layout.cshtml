@@ -8,19 +8,15 @@
 <body>
     <header>
         Store App : Header
-        <partial name = "Home" asp-action="Index">Home</partial>
-        @RenderSection("Top",false)
     </header>
 
     <main>
-        @RenderBody()
+        @RenderBody
     </main>
 
     <footer>
-        @RenderSection("Top", false)
         Footer
     </footer>
-    @await RenderSectionAsync("Scripts",required:false)
 
 </body>
 </html>

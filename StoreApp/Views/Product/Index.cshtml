@@ -1,24 +1,18 @@
-﻿@model List<StoreApp.Entities.Product>
+﻿@{
+    Layout = "_Layout";
+}
+@model List<Product>
 
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width-device-width, initial-scale = 1.0" />
-        <title>Document</title>
-    </head>
-    <body>
+@section Footer {
+    <div>
+        Only for Index Foote
+    </div>
+}
 
-         @foreach(StoreApp.Entities.Product prd in Model)
+         @foreach(Product prd in Model)
             {
-                <div>
-                    <h3>@prd.ProductName</h3>
-                    <p>@prd.Price</p>
-                </div>
+               <partial name="_ProductCard" model="@prd"/>
             }
-    </body>
-    </html>
-
+    
 
     
