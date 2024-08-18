@@ -2,14 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
 <body>
     <header>
         Store App : Header
-        <partial name = "Home" asp-action="Index">Home</partial>
-        @RenderSection("Top",false)
+        <partial name = "_Navbar"/>
+        @RenderSection("Header",false)
     </header>
 
     <main>
@@ -17,7 +18,7 @@
     </main>
 
     <footer>
-        @RenderSection("Top", false)
+        @RenderSection("Footer", false)
         Footer
     </footer>
     @await RenderSectionAsync("Scripts",required:false)

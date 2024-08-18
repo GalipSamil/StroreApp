@@ -20,6 +20,7 @@ Configure(app, app.Environment);
 //builder.Services.AddControllersWithViews();
 
 app.Run();
+app.UseStaticFiles();
 
 void ConfigureServices(IServiceCollection services, IConfiguration configuration)
 {
