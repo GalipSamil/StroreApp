@@ -13,9 +13,9 @@ namespace StoreApp.Controllers
             _logger = logger;
         }
 
-        public String Index()
+        public IActionResult Index()
         {
-            return "Hello Store App";
+            return View();
         }
 
         public IActionResult Privacy()
