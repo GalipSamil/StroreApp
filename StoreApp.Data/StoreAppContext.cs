@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using StoreApp.Entities;
+using StoreApp.Entities.Models;
 
 
 namespace StoreApp.Data
@@ -13,6 +13,12 @@ namespace StoreApp.Data
         }
 
         public DbSet<Product> Products { get; set; }
+
+        public DbSet<Category> Categories { get; set; }
+
+        //public DbSet<Category> Categories { get; set; }
+
+        //public DbSet<Order> Orders { get; set; }
 
        
 
@@ -28,6 +34,12 @@ namespace StoreApp.Data
                 new Product { ProductId = 4, ProductName = "Monitor", Price = 7000 },
                 new Product { ProductId = 5, ProductName = "Desk", Price = 1500 }
             );
+
+            modelBuilder.Entity<Category>()
+            .HasData(
+                new Category() { CategoryId = 1, CategoryName = "Book"},
+                new Category() { CategoryId = 2, CategoryName = "Electronic"}
+                );
         }
 
     }

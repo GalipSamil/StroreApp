@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StoreApp.Entities
+namespace StoreApp.Entities.Models
 {
     public class Product
     {
         public int ProductId { get; set; }
 
-        public string ProductName { get; set; } = String.Empty;
+        public string ProductName { get; set; } = string.Empty;
 
         public decimal Price { get; set; }
-        
+
     }
 }

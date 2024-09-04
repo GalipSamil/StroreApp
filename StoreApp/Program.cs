@@ -1,7 +1,13 @@
+using DevExpress.Services.Internal;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.SqlServer.Dac.Extensibility;
+using Services;
+using Services.Contracts;
 using StoreApp.Data;
+using StoreApp.Data.Contracts;
+using StoreApp.Data.Migrations;
 using StoreApp.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +28,8 @@ Configure(app, app.Environment);
 app.Run();
 app.UseStaticFiles();
 
+
+
 void ConfigureServices(IServiceCollection services, IConfiguration configuration)
 {
     services.AddControllersWithViews();
@@ -29,6 +37,16 @@ void ConfigureServices(IServiceCollection services, IConfiguration configuration
     // Add DbContext configuration
     services.AddDbContext<StoreAppContext>(options =>
         options.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
+
+    services.AddScoped<IRepositoryManager, RepositoryManager>();
+    services.AddScoped<IProductRepository, ProductRepository>();
+    services.AddScoped<ICategoryRepository, CategoryRepository>();
+    services.AddScoped<IServiceManager, Services.ServiceManager>();
+    services.AddScoped<IProductService, ProductManager>();
+    services.AddScoped<ICategoryService, CategoryManager>();
+    
+
+
 }
 
 void Configure(WebApplication app, IWebHostEnvironment environment)
