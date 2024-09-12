@@ -44,8 +44,7 @@ void ConfigureServices(IServiceCollection services, IConfiguration configuration
     services.AddScoped<IServiceManager, Services.ServiceManager>();
     services.AddScoped<IProductService, ProductManager>();
     services.AddScoped<ICategoryService, CategoryManager>();
-    
-
+   
 
 }
 
@@ -64,8 +63,15 @@ void Configure(WebApplication app, IWebHostEnvironment environment)
 
     app.UseEndpoints(endpoints =>
     {
-        endpoints.MapControllerRoute("default","{controller =Home},{action=index}/{id?}");
+        endpoints.MapAreaControllerRoute(
+            name :"Admin",
+            areaName : "Admin",
+            pattern:"Admin/{controller=Dashboard}/{action=Index}/{id?}"
+        );
 
+        endpoints.MapControllerRoute(
+            name: "default",
+            pattern: "{controller=Home}/{action=Index}/{id?}");
     });
 
 }

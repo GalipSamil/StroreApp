@@ -26,6 +26,15 @@ namespace StoreApp.Data
                 :_context.Set<T>().Where(expression).AsNoTracking().SingleOrDefault();
         }
 
+        public void Create (T entity)
+        {
+            _context.Set<T>().Add(entity);
+        }
+
+        public void Remove(T entity)
+        {
+            _context.Set<T>().Remove(entity);
+        }
     }
 }
 
