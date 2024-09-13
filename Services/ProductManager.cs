@@ -3,6 +3,8 @@ using StoreApp.Entities.Models;
 using StoreApp.Data;
 using StoreApp.Data.Contracts;
 using System.Runtime.CompilerServices;
+using StoreApp.Entities.Dtos;
+using AutoMapper;
 
 namespace Services
 {
@@ -10,10 +12,17 @@ namespace Services
     {
         private readonly IRepositoryManager _manager;
 
-        public ProductManager(IRepositoryManager manager)
+        private readonly IMapper _mapper;
+
+        public ProductManager(IRepositoryManager manager, IMapper mapper)
         {
             _manager = manager;
+            _mapper = mapper;
         }
+
+
+
+       
 
         public void DeleteOneProduct(int id)
         {
@@ -40,31 +49,37 @@ namespace Services
             return product;
         }
 
-        public void UpdateOneProduct(Product product)
+        public void UpdateOneProduct(ProductDtoForUpdate productDto)
         {
-            var entity = _manager.Product.GetOneProduct(product.ProductId, true);
-            if (entity ==null)
+            //var entity = _manager.Product.GetOneProduct(productDto.ProductId, true);
+            /*if (entity ==null)
             {
                 throw new Exception("entity don't be null");
                 
             }  
             else
             {
-                entity.ProductName = product.ProductName;
-            }
-            entity.Price = product.Price;
+                entity.ProductName = productDto.ProductName;
+            }*/
+            var entity = _mapper.Map<Product>(productDto);
+            _manager.Product.UpdateOneProduct(entity);  
             _manager.Save();
         }
 
-        void IProductService.CreateProduct(Product product)
+        public void CreateProduct(ProductDtoForInsertion productDto)
+
         {
+            Product product=_mapper.Map<Product>(productDto);
             _manager.Product.Create(product);
             _manager.Save();
         }
 
-        
+        public ProductDtoForUpdate GetOneProductForUpdate(int id, bool trackChanges)
+        {
+            var product = GetOneProduct(id, trackChanges);
+            var productDto = _mapper.Map<ProductDtoForUpdate>(product);
+            return productDto;
+        }
     }
-    
-
-    
+        
 }

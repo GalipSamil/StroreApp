@@ -11,11 +11,18 @@ namespace StoreApp.Entities.Models
     {
         public int ProductId { get; set; }
 
-        [Required(ErrorMessage = "Product Name is required")]
-        public string ProductName { get; set; } = string.Empty;
+        
+        public String ProductName { get; set; } = String.Empty;
 
-        [Required(ErrorMessage = "Price is required")]
+        public String? Summary { get; set; } = String.Empty;
+        public String? ImageUrl { get; set; }
+
+        
         public decimal Price { get; set; }
+
+        public int? CategoryId { get; init; }  // Foreign Key
+
+        public Category? Category { get; set; }  // Navigation property
 
     }
 }

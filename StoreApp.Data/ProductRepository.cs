@@ -25,6 +25,8 @@ namespace StoreApp.Data
         
 
         public void DeleteOneProduct(Product product) => Remove(product);
+
+        public void UpdateOneProduct(Product entity) => Update(entity);
         
             
         

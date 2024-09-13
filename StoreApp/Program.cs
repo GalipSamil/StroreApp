@@ -44,6 +44,7 @@ void ConfigureServices(IServiceCollection services, IConfiguration configuration
     services.AddScoped<IServiceManager, Services.ServiceManager>();
     services.AddScoped<IProductService, ProductManager>();
     services.AddScoped<ICategoryService, CategoryManager>();
+    services.AddAutoMapper(typeof(Program));
    
 
 }

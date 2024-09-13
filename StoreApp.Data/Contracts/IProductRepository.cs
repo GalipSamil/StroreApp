@@ -11,5 +11,6 @@ namespace StoreApp.Data.Contracts
 
         void CreateOneProduct(Product product);
         void DeleteOneProduct(Product product);
+        void UpdateOneProduct(Product entity);
     }
 }
