@@ -10,15 +10,20 @@ namespace StoreApp.Data
 
         private readonly ICategoryRepository _categoryRepository;
 
-        public RepositoryManager(IProductRepository productRepository,ICategoryRepository categoryRepository, StoreAppContext context)
+        private readonly IOrderRepository _orderRepository;
+
+        public RepositoryManager(IProductRepository productRepository,ICategoryRepository categoryRepository, StoreAppContext context,IOrderRepository orderRepository)
         {
             _context = context;
             _productRepository = productRepository;
             _categoryRepository = categoryRepository;
+            _orderRepository = orderRepository;
         }
         public IProductRepository Product => _productRepository;
 
         public ICategoryRepository Category => _categoryRepository;
+
+        public IOrderRepository Order => _orderRepository;
 
         public void Save()
         {

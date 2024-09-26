@@ -9,6 +9,8 @@ using StoreApp.Data;
 using StoreApp.Data.Contracts;
 using StoreApp.Data.Migrations;
 using StoreApp.Entities;
+using StoreApp.Entities.Models;
+using StoreApp.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,11 +43,24 @@ void ConfigureServices(IServiceCollection services, IConfiguration configuration
     services.AddScoped<IRepositoryManager, RepositoryManager>();
     services.AddScoped<IProductRepository, ProductRepository>();
     services.AddScoped<ICategoryRepository, CategoryRepository>();
+    services.AddScoped<IOrderRepository, OrderRepository>();
+
     services.AddScoped<IServiceManager, Services.ServiceManager>();
     services.AddScoped<IProductService, ProductManager>();
     services.AddScoped<ICategoryService, CategoryManager>();
+    services.AddScoped<IOrderService, OrderManager>();
+
     services.AddAutoMapper(typeof(Program));
-   
+    services.AddRazorPages();
+    services.AddScoped<Cart>(c => SessionCart.GetCart(c));
+    services.AddDistributedMemoryCache();
+    services.AddSession(options =>
+        {
+            options.Cookie.Name = "StoreApp.Session";
+            options.IdleTimeout = TimeSpan.FromMinutes(10);
+
+        });
+    services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 }
 
@@ -61,18 +76,21 @@ void Configure(WebApplication app, IWebHostEnvironment environment)
     app.UseStaticFiles();
     app.UseRouting();
     app.UseAuthorization();
+    app.UseSession();
 
     app.UseEndpoints(endpoints =>
     {
         endpoints.MapAreaControllerRoute(
             name :"Admin",
             areaName : "Admin",
-            pattern:"Admin/{controller=Dashboard}/{action=Index}/{id?}"
+            pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}"
         );
 
         endpoints.MapControllerRoute(
             name: "default",
             pattern: "{controller=Home}/{action=Index}/{id?}");
+
+        endpoints.MapRazorPages();
     });
 
 }

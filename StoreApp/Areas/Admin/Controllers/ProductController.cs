@@ -2,13 +2,12 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Services;
 using Services.Contracts;
-using StoreApp.Entities.Models;
 using StoreApp.Entities.Dtos;
 
 namespace StoreApp.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class ProductController : Controller
+    public class ProductController 
     {
         private readonly IServiceManager _manager;
 

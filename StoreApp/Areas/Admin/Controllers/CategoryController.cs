@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DocumentFormat.OpenXml.Wordprocessing;
+using Microsoft.AspNetCore.Mvc;
 
 namespace StoreApp.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class DashboardController : Controller
+    public class CategoryController
     {
+        
         public IActionResult Index()
         {
             return View();
