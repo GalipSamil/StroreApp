@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,16 +16,21 @@ namespace Services
 
         private readonly IOrderService _orderService;
 
+        private readonly IAuthService _authService;
+
        
-        public ServiceManager(IProductService productService, ICategoryService categoryService, IOrderService orderService)
+        public ServiceManager(IProductService productService, ICategoryService categoryService, IOrderService orderService,IAuthService authService)
         {
             _productService = productService;
             _categoryService = categoryService;
             _orderService = orderService;
+            _authService = authService;
         }
 
         public IProductService ProductService => _productService;
         public ICategoryService CategoryService => _categoryService;
         public IOrderService OrderService => _orderService;
+
+        public IAuthService AuthService => _authService;
     }
 }

@@ -7,7 +7,7 @@ using StoreApp.Entities.Dtos;
 namespace StoreApp.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class ProductController 
+    public class ProductController : Controller
     {
         private readonly IServiceManager _manager;
 
@@ -15,7 +15,7 @@ namespace StoreApp.Areas.Admin.Controllers
         {
             _manager = manager;
         }
-        
+
         public IActionResult Index()
         {
             var model = _manager.ProductService.GetAllProducts(false);
@@ -32,27 +32,27 @@ namespace StoreApp.Areas.Admin.Controllers
         {
             return new SelectList(_manager.CategoryService.GetAllCategories(false),
             "CategoryId",
-            "CategoryName","1");
+            "CategoryName", "1");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult>  Create([FromForm] ProductDtoForInsertion productDto, IFormFile file)
+        public async Task<IActionResult> Create([FromForm] ProductDtoForInsertion productDto, IFormFile file)
         {
             if (ModelState.IsValid)
             {
                 //file operation
-                string path = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot", "images",file.FileName); // a/b/c
+                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", file.FileName); // a/b/c
 
-                using (var stream = new FileStream(path,FileMode.Create))
+                using (var stream = new FileStream(path, FileMode.Create))
                 {
                     await file.CopyToAsync(stream);
                 }
 
-                productDto.ImageUrl = String.Concat("/images/",file.FileName);
+                productDto.ImageUrl = String.Concat("/images/", file.FileName);
 
                 _manager.ProductService.CreateProduct(productDto);
-                return RedirectToAction("Index");  
+                return RedirectToAction("Index");
             }
             return View();
         }
@@ -67,7 +67,7 @@ namespace StoreApp.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update([FromForm]ProductDtoForUpdate productDto,IFormFile file)
+        public async Task<IActionResult> Update([FromForm] ProductDtoForUpdate productDto, IFormFile file)
         {
             if (ModelState.IsValid)
             {
@@ -84,18 +84,18 @@ namespace StoreApp.Areas.Admin.Controllers
                 _manager.ProductService.UpdateOneProduct(productDto);
                 return RedirectToAction("Index");
             }
-            return View();   
+            return View();
         }
 
         [HttpGet]
 
-        public  IActionResult Delete([FromRoute(Name = "id")] int id)
+        public IActionResult Delete([FromRoute(Name = "id")] int id)
         {
             _manager.ProductService.DeleteOneProduct(id);
             return RedirectToAction("Index");
         }
 
-      
+
 
     }
 }

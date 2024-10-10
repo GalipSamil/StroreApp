@@ -3,7 +3,7 @@
 namespace StoreApp.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class DashboardController 
+    public class DashboardController : Controller
     {
         public IActionResult Index()
         {

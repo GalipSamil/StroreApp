@@ -1,16 +1,6 @@
-using DevExpress.Services.Internal;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.SqlServer.Dac.Extensibility;
-using Services;
-using Services.Contracts;
 using StoreApp.Data;
-using StoreApp.Data.Contracts;
-using StoreApp.Data.Migrations;
-using StoreApp.Entities;
-using StoreApp.Entities.Models;
-using StoreApp.Models;
+using StoreApp.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +20,10 @@ Configure(app, app.Environment);
 app.Run();
 app.UseStaticFiles();
 
+app.ConfigureAndCheckMigrations();
+app.ConfigureLocalization();
+
+
 
 
 void ConfigureServices(IServiceCollection services, IConfiguration configuration)
@@ -37,30 +31,21 @@ void ConfigureServices(IServiceCollection services, IConfiguration configuration
     services.AddControllersWithViews();
 
     // Add DbContext configuration
-    services.AddDbContext<StoreAppContext>(options =>
-        options.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
+    /*services.AddDbContext<StoreAppContext>(options =>
+        options.UseSqlite(configuration.GetConnectionString("DefaultConnection")));*/
 
-    services.AddScoped<IRepositoryManager, RepositoryManager>();
-    services.AddScoped<IProductRepository, ProductRepository>();
-    services.AddScoped<ICategoryRepository, CategoryRepository>();
-    services.AddScoped<IOrderRepository, OrderRepository>();
+    builder.Services.ConfigureDbContext(builder.Configuration);
+    builder.Services.ConfigureRepositoryRegistration();
+    builder.Services.ConfigureServiceRegistration();
+    builder.Services.ConfigureRouting();
+    builder.Services.ConfigureIdentity();
 
-    services.AddScoped<IServiceManager, Services.ServiceManager>();
-    services.AddScoped<IProductService, ProductManager>();
-    services.AddScoped<ICategoryService, CategoryManager>();
-    services.AddScoped<IOrderService, OrderManager>();
+
+    
 
     services.AddAutoMapper(typeof(Program));
-    services.AddRazorPages();
-    services.AddScoped<Cart>(c => SessionCart.GetCart(c));
-    services.AddDistributedMemoryCache();
-    services.AddSession(options =>
-        {
-            options.Cookie.Name = "StoreApp.Session";
-            options.IdleTimeout = TimeSpan.FromMinutes(10);
-
-        });
-    services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+    services.AddRazorPages();   
+    builder.Services.ConfigureSession();
 
 }
 
@@ -72,12 +57,17 @@ void Configure(WebApplication app, IWebHostEnvironment environment)
         app.UseHsts();
     }
 
-    app.UseHttpsRedirection();
+    
     app.UseStaticFiles();
-    app.UseRouting();
-    app.UseAuthorization();
     app.UseSession();
 
+    app.UseHttpsRedirection();
+    app.ConfigureDefaultAdminUser();
+
+    app.UseRouting();
+    app.UseAuthorization();
+    app.UseAuthentication();
+   
     app.UseEndpoints(endpoints =>
     {
         endpoints.MapAreaControllerRoute(
@@ -94,6 +84,7 @@ void Configure(WebApplication app, IWebHostEnvironment environment)
     });
 
 }
+
 
 void ApplyMigrationsAndSeed(WebApplication app)
 {

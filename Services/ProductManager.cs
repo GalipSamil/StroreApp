@@ -5,6 +5,8 @@ using StoreApp.Data.Contracts;
 using System.Runtime.CompilerServices;
 using StoreApp.Entities.Dtos;
 using AutoMapper;
+using DocumentFormat.OpenXml.ExtendedProperties;
+using StoreApp.Entities.RequestParameters;
 
 namespace Services
 {
@@ -79,6 +81,28 @@ namespace Services
             var product = GetOneProduct(id, trackChanges);
             var productDto = _mapper.Map<ProductDtoForUpdate>(product);
             return productDto;
+        }
+
+        public IEnumerable<Product> GetShowcaseProducts(bool trackChanges)
+        {
+            var products = _manager.Product.GetShowcaseProducts(trackChanges);
+            return products;
+        }
+
+       
+
+        public IEnumerable<Product> GetAllProductWithDetails(ProductRequestParameters p)
+        {
+            return _manager.Product.GetAllProductWithDetails(p);
+        }
+
+        public IEnumerable<Product> GetLatestProducts(int n, bool trackChanges)
+        {
+            return _manager
+                .Product
+                .FindAll(trackChanges)
+                .OrderByDescending(prd => prd.ProductId)
+                .Take(n);
         }
     }
         

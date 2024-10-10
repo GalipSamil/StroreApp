@@ -1,12 +1,12 @@
 ﻿using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Mvc;
 
-namespace StoreApp.Areas.Admin.Controllers
+namespace StoreApp.Areas.Admin.ControllerS
 {
     [Area("Admin")]
-    public class CategoryController
+    public class CategoryController : Controller
     {
-        
+
         public IActionResult Index()
         {
             return View();

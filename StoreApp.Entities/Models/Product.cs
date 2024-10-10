@@ -24,5 +24,6 @@ namespace StoreApp.Entities.Models
 
         public Category? Category { get; set; }  // Navigation property
 
+        public bool ShowCase { get; set; }
     }
 }

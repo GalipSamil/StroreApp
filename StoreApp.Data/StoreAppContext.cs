@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using StoreApp.Data.Config;
 using StoreApp.Entities.Models;
 using System.Reflection;
@@ -6,7 +8,7 @@ using System.Reflection;
 
 namespace StoreApp.Data
 {
-    public class StoreAppContext : DbContext
+    public class StoreAppContext : IdentityDbContext<IdentityUser>
     {
         
 
