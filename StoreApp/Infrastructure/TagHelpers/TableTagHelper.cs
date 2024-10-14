@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Razor.TagHelpers;
-
 namespace StoreApp.Infrastructure.TagHelpers
 {
     [HtmlTargetElement("table")]
